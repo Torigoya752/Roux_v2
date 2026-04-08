@@ -418,10 +418,42 @@ def goF(cube0):
     tempCube = tempCube & (ALL_MASK ^ (0xc3c3 << 104))
     tempCube = tempCube | (temp0 << (104 + 3*2)) | (temp1 << (104 + 7*2)) | (temp2 << (104 + 4*2)) | (temp3 << (104 + 0*2))
     return tempCube
+
+def goF1(cube0):
+    tempCube = cube0
+    # ep
+    temp0 = (cube0 >> (0*4)) & 0xf
+    temp1 = (cube0 >> (4*4)) & 0xf
+    temp2 = (cube0 >> (8*4)) & 0xf
+    temp3 = (cube0 >> (7*4)) & 0xf
+    tempCube = tempCube & (ALL_MASK ^ 0xff00f000f)
+    tempCube = tempCube | (temp0 << (4*4)) | (temp1 << (8*4)) | (temp2 << (7*4)) | (temp3 << (0*4))
+    # eo
+    temp0 = TUPLE_EO_1[(cube0 >> (48 + 0*2)) & 0x3]
+    temp1 = TUPLE_EO_1[(cube0 >> (48 + 4*2)) & 0x3]
+    temp2 = TUPLE_EO_1[(cube0 >> (48 + 8*2)) & 0x3]
+    temp3 = TUPLE_EO_1[(cube0 >> (48 + 7*2)) & 0x3]
+    tempCube = tempCube & (ALL_MASK ^ (0x3c303 << 48))
+    tempCube = tempCube | (temp0 << (48 + 4*2)) | (temp1 << (48 + 8*2)) | (temp2 << (48 + 7*2)) | (temp3 << (48 + 0*2))
+    # cp
+    temp0 = (cube0 >> (72 + 0*4)) & 0xf
+    temp1 = (cube0 >> (72 + 4*4)) & 0xf
+    temp2 = (cube0 >> (72 + 7*4)) & 0xf
+    temp3 = (cube0 >> (72 + 3*4)) & 0xf
+    tempCube = tempCube & (ALL_MASK ^ (0xf00ff00f << 72))
+    tempCube = tempCube | (temp0 << (72 + 4*4)) | (temp1 << (72 + 7*4)) | (temp2 << (72 + 3*4)) | (temp3 << (72 + 0*4))
+    # co
+    temp0 = TUPLE_CO_1[(cube0 >> (104 + 0*2)) & 0x3]
+    temp1 = TUPLE_CO_2[(cube0 >> (104 + 4*2)) & 0x3]
+    temp2 = TUPLE_CO_1[(cube0 >> (104 + 7*2)) & 0x3]
+    temp3 = TUPLE_CO_2[(cube0 >> (104 + 3*2)) & 0x3]
+    tempCube = tempCube & (ALL_MASK ^ (0xc3c3 << 104))
+    tempCube = tempCube | (temp0 << (104 + 4*2)) | (temp1 << (104 + 7*2)) | (temp2 << (104 + 3*2)) | (temp3 << (104 + 0*2))
+    return tempCube
     
 if (__name__ == "__main__"):
     cube0 = GOOD_CUBE
     for i in range(4):
-        cube0 = goF(cube0)
+        cube0 = goF1(cube0)
     print((hex)(cube0))
     print(cube0 == GOOD_CUBE)
